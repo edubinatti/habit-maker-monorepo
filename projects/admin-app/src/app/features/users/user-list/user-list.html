@@ -1,0 +1,43 @@
+{{ userOne | async | json }}
+
+<hr/>
+
+<h3>Using Async Pipe</h3>
+@for (user of userList | async; track $index) {
+    <li>{{ user.name }} | {{ user.username }} | {{ user.email }}</li>
+} @empty {
+    <li>There are no users.</li>
+}
+
+<hr/>
+
+<h3>Using Signal</h3>
+@for (user of userListSignal(); track $index) {
+    <li>{{ user.name }} | {{ user.username }} | {{ user.email }}</li>
+} @empty {
+    <li>There are no users.</li>
+}
+
+<hr style="margin: 2rem 0 2rem 0"/>
+
+<div class="own--table" role="region" tabindex="0">
+<table>
+    <caption style="margin-bottom: 1rem;">Users Table</caption>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (user of userListSignal(); track user.id) {
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email | lowercase }}</td>
+            </tr>        
+            }
+    </tbody>
+</table>
+</div>
