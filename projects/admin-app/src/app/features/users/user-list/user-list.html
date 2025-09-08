@@ -1,12 +1,23 @@
-{{ userOne | async | json }}
+<div class="inline--buttons">
+    <button (click)="findUser(1)">Find One</button>
+    <button (click)="findUser(2)">Find Two</button>
+    <button (click)="findUser(3)">Find Three</button>
+</div>
 
+<hr/>
+
+<div class="show--user">
+@if(user.hasValue()) {
+  {{ user.value() | json}}
+}
+</div> 
 <hr/>
 
 <h3>Using Async Pipe</h3>
 @for (user of userList | async; track $index) {
     <li>{{ user.name }} | {{ user.username }} | {{ user.email }}</li>
 } @empty {
-    <li>There are no users.</li>
+    <li>There are no user.</li>
 }
 
 <hr/>

@@ -1,7 +1,8 @@
 import { AsyncPipe, JsonPipe, LowerCasePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-user-list',
@@ -12,12 +13,19 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class UserList {
 
   
-  private http = inject(HttpClient);
+  private readonly userService = inject(UserService);
 
-  userOne = this.http.get<any>('https://jsonplaceholder.typicode.com/users/1');
+  userId = signal(1);
+  // getUser = toSignal(this.userService.getUsers(1), { initialValue: []});
+  user = httpResource(() => `https://jsonplaceholder.typicode.com/users/${this.userId()}`);
 
-  userList = this.http.get<any[]>('https://jsonplaceholder.typicode.com/users');
+  userList = this.userService.getUsers();
 
-  userListSignal = toSignal(this.userList, { initialValue: [] });
+  userListSignal = toSignal(this.userService.getUsers(), { initialValue: [] });
+
+  findUser(id: number){
+    this.userId.set(id);
+    console.log('click findUser:', this.userId());
+  }
 
 }
