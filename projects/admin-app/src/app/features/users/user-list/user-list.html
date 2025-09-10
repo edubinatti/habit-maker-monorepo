@@ -1,54 +1,57 @@
-<div class="inline--buttons">
-    <button (click)="findUser(1)">Find One</button>
-    <button (click)="findUser(2)">Find Two</button>
-    <button (click)="findUser(3)">Find Three</button>
+<div class="show--user">
+<pre class="current--user">
+@if(user.hasValue()) {
+{{ user.value() | json}}
+}
+</pre>
 </div>
 
-<hr/>
+<hr />
 
-<div class="show--user">
-@if(user.hasValue()) {
-  {{ user.value() | json}}
-}
-</div> 
-<hr/>
+<div class="inline--buttons">
+    <button (click)="previousUser()">previous</button>
+    <button (click)="resetUser()">reset</button>
+    <button (click)="nextUser()">next</button>
+</div>
+
+<hr />
 
 <h3>Using Async Pipe</h3>
 @for (user of userList | async; track $index) {
-    <li>{{ user.name }} | {{ user.username }} | {{ user.email }}</li>
+<li>{{ user.name }} | {{ user.username }} | {{ user.email }}</li>
 } @empty {
-    <li>There are no user.</li>
+<li>There are no user.</li>
 }
 
-<hr/>
+<hr />
 
 <h3>Using Signal</h3>
 @for (user of userListSignal(); track $index) {
-    <li>{{ user.name }} | {{ user.username }} | {{ user.email }}</li>
+<li>{{ user.name }} | {{ user.username }} | {{ user.email }}</li>
 } @empty {
-    <li>There are no users.</li>
+<li>There are no users.</li>
 }
 
-<hr style="margin: 2rem 0 2rem 0"/>
+<hr style="margin: 2rem 0 2rem 0" />
 
-<div class="own--table" role="region" tabindex="0">
-<table>
-    <caption style="margin-bottom: 1rem;">Users Table</caption>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>username</th>
-            <th>email</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (user of userListSignal(); track user.id) {
+<div class="owl--table" role="region" tabindex="0">
+    <table>
+        <caption style="margin-bottom: 1rem;">Users Table</caption>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>username</th>
+                <th>email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of userListSignal(); track user.id) {
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email | lowercase }}</td>
-            </tr>        
+            </tr>
             }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </div>
