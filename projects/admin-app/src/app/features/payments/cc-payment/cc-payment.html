@@ -1,0 +1,104 @@
+<div class="payment-container">
+
+    <div class="card-wrapper">
+        <div class="card-inner" [class.is-flipped]="isFlipped()">
+
+            <div class="card-face card-front">
+                <div class="card-header">
+                    <div class="card-chip"></div>
+                    @if(cardBrandLogo() !== ''){
+                    <img [src]="cardBrandLogo()" alt="Bandeira" class="card-brand-logo">
+                    }
+                </div>
+
+                <div class="card-section">
+                    <div class="card-label">Número do Cartão</div>
+                    <div class="card-value" [class.placeholder]="!cardNumberDisplay()">
+                        {{ cardNumberDisplay() || '#### #### #### ####' }}
+                    </div>
+                    <div class="focus-outline" [class.active]="focusState() === 'number'">
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="card-section">
+                        <div class="card-label">Titular do Cartão</div>
+                        <div class="card-value" [class.placeholder]="!cardHolderDisplay()">
+                            {{ cardHolderDisplay() || 'NOME DO TITULAR' }}
+                        </div>
+                        <div class="focus-outline" [class.active]="focusState() === 'holder'">
+                        </div>
+                    </div>
+
+                    <div class="card-section -expiry">
+                        <div class="card-label">Validade</div>
+                        <div class="card-value">
+                            <span [class.placeholder]="!expMonthDisplay()">{{ expMonthDisplay() || 'MM' }}</span>
+                            /
+                            <span [class.placeholder]="!expYearDisplay()">{{ expYearDisplay() || 'AA' }}</span>
+                        </div>
+                        <div class="focus-outline" [class.active]="focusState() === 'expiry'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-face card-back">
+                <div class="card-stripe"></div>
+                <div class="card-back-content">
+                    <div class="card-section-back-cvv">
+                        <div class="cvv-signature-strip">
+                            <span>{{ cvvDisplay() }}</span>
+                        </div>
+                        <div class="focus-outline" [class.active]="focusState() === 'cvv'">
+                        </div>
+                    </div>
+                    <img [src]="cardBrandLogo()" alt="Bandeira" class="card-brand-logo-back">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-wrapper">
+        <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+                <label for="cardNumber">Número do Cartão</label>
+                <input id="cardNumber" formControlName="cardNumber" (focus)="onFieldFocus('number')"
+                    (blur)="onFieldBlur()" maxlength="16">
+            </div>
+
+            <div class="form-group">
+                <label for="cardHolder">Nome do Titular</label>
+                <input id="cardHolder" formControlName="cardHolder" (focus)="onFieldFocus('holder')"
+                    (blur)="onFieldBlur()">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group -half">
+                    <label for="expMonth">Mês (MM)</label>
+                    <input id="expMonth" formControlName="expMonth" (focus)="onFieldFocus('expiry')"
+                        (blur)="onFieldBlur()" placeholder="MM" maxlength="2">
+                </div>
+
+                <div class="form-group -half">
+                    <label for="expYear">Ano (AA)</label>
+                    <input id="expYear" formControlName="expYear" (focus)="onFieldFocus('expiry')"
+                        (blur)="onFieldBlur()" placeholder="AA" maxlength="2">
+                </div>
+
+                <div class="form-group -half">
+                    <label for="cvv">CVV</label>
+                    <input id="cvv" formControlName="cvv" (focus)="onFieldFocus('cvv')" (blur)="onFieldBlur()"
+                        maxlength="4">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" [disabled]="paymentForm.invalid">
+                Finalizar
+            </button>
+
+        </form>
+    </div>
+</div>

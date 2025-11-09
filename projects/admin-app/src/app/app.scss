@@ -56,3 +56,10 @@ main {
 .content {
   grid-column: 2;
 }
+
+nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  
+}

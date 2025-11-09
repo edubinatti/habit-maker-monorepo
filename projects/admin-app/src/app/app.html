@@ -1,7 +1,11 @@
+<header>
+  <nav>
+    <a routerLink="/payments">Payments</a> |
+    <a routerLink="/users">Users</a>
+  </nav>
+</header>
 <main class="main">
   <div class="content">
-    <app-user-list></app-user-list>
+    <router-outlet />
   </div>
 </main>
-
-<router-outlet />
